@@ -23,11 +23,7 @@ void main() async {
   final storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
 
-  
-  HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
-    storage: storage
-  );
+  HydratedBlocOverrides.runZoned(() => runApp(const MyApp()), storage: storage);
 
   //runApp(const MyApp());
 }
