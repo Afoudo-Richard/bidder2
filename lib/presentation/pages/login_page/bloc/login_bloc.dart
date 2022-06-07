@@ -7,6 +7,7 @@ import 'package:bidder/presentation/pages/authentication/bloc/authentication_blo
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -53,14 +54,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
-        Map loginResponse = await bidderRepository.login(
+        ParseUser loginResponse = await bidderRepository.login(
           email: state.email.value,
           password: state.password.value,
-        );
+        ) as ParseUser;
+
+        final userModel = {
+          'id': loginResponse.objectId,
+          'firstname': loginResponse.get('firstname'),
+          'lastname': loginResponse.get('lastname'),
+          'email': loginResponse.emailAddress,
+          'phone': loginResponse.get('phone'),
+          'dateCreated': loginResponse.createdAt
+        };
+
+        print(jsonEncode(userModel));
 
         authenticationBloc.add(AuthenticationStatusChanged(
-          authenticated: loginResponse['login'],
-          user: User.fromJson(json.encode(loginResponse['user'])),
+          authenticated: true,
+          user: User.fromJson(json.encode(userModel.toString())),
         ));
         print(loginResponse);
         emit(state.copyWith(status: FormzStatus.submissionSuccess));

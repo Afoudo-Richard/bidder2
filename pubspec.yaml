@@ -40,6 +40,7 @@ dependencies:
   timer_count_down: ^2.2.1
   flutter_countdown_timer: ^4.1.0
   dio: ^4.0.0
+  parse_server_sdk_flutter: ^3.1.2
 
 dev_dependencies:
   flutter_test:

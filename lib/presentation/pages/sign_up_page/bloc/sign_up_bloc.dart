@@ -137,7 +137,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
-        Map signUpResponse = await bidderRepository.signUp(
+        final signUpResponse = await bidderRepository.signUp(
           firstname: state.firstName.value,
           lastname: state.lastName.value,
           email: state.email.value,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bidder/data/data_provider/bidder_api.dart';
 import 'package:bidder/data/model/backend/product.dart';
 import 'package:bidder/utils/errors/result_errors.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class BidderRepository {
   final BidderApi bidderApi;
@@ -10,13 +11,19 @@ class BidderRepository {
   BidderRepository({required this.bidderApi});
 
   // login to the system
-  Future<Map> login({
+  Future login({
     required String email,
     required String password,
   }) async {
-    final rawloginResponse =
-        await bidderApi.login(email: email, password: password);
-    return rawloginResponse;
+    final user = ParseUser(email, password, email);
+
+    var response = await user.login();
+    print(response);
+    if (response.success) {
+      return response.result;
+    } else {
+      throw ErrorSigningIn("Error logining in");
+    }
   }
 
   Future signUp({
@@ -26,14 +33,12 @@ class BidderRepository {
     required String phone,
     required String password,
   }) async {
-    final rawSignUpResponse = await bidderApi.signUp(
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phone: phone,
-      password: password,
-    );
-    return rawSignUpResponse;
+    final user =
+        ParseUser.createUser(firstname + " " + lastname, password, email);
+
+    var response = await user.signUp();
+
+    return response;
   }
 
   Future addItem(Map data) async {

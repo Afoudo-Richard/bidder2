@@ -13,12 +13,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // HydratedBloc.storage = await HydratedStorage.build(
   //   storageDirectory: await getApplicationDocumentsDirectory(),
   // );
+
+  final keyApplicationId = 'nOiWFINRWNaJDpHSpaKKZxRbtE1KiB8paZKKDWD2';
+  final keyClientKey = 'B6swThWYlZwNTKumSLZDQmwN9go3BIYRNsFnOHer';
+  final keyParseServerUrl = 'https://parseapi.back4app.com';
+
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
+      clientKey: keyClientKey, autoSendSessionId: true);
 
   final storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
