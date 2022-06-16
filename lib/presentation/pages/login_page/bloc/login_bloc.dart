@@ -59,24 +59,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           password: state.password.value,
         ) as ParseUser;
 
-        final userModel = {
+        final Map userModel = {
           'id': loginResponse.objectId,
           'firstname': loginResponse.get('firstname'),
           'lastname': loginResponse.get('lastname'),
           'email': loginResponse.emailAddress,
           'phone': loginResponse.get('phone'),
-          'dateCreated': loginResponse.createdAt
+          'dateCreated': loginResponse.createdAt.toString()
         };
-
-        print(jsonEncode(userModel));
+        print("printing the data here");
+        print(JsonEncoder().convert(userModel));
 
         authenticationBloc.add(AuthenticationStatusChanged(
           authenticated: true,
-          user: User.fromJson(json.encode(userModel.toString())),
+          user: User.fromJson(JsonEncoder().convert(userModel)),
         ));
         print(loginResponse);
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
-      } catch (_) {
+      } catch (e) {
+        print(e.toString());
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
     }

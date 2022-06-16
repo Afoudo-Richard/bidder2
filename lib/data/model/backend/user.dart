@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class User {
-  final int id;
+  final String id;
   final String firstname;
   final String lastname;
   final String email;
@@ -39,7 +39,7 @@ class User {
   factory User.fromMap(Map<String, dynamic> map) {
     //if(map == null) return null;
     return User(
-      id: map['id']?.toInt() ?? 0,
+      id: map['id'] ?? '',
       firstname: map['firstname'] ?? '',
       lastname: map['lastname'] ?? '',
       email: map['email'] ?? '',
