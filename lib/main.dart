@@ -3,7 +3,6 @@ import 'package:bidder/data/repository/bidder_repository.dart';
 import 'package:bidder/presentation/pages/add_item_page/add_item_page.dart';
 import 'package:bidder/presentation/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:bidder/presentation/pages/favorites_page/favorites_page.dart';
-import 'package:bidder/presentation/pages/home_page/home_page.dart';
 import 'package:bidder/presentation/pages/login_page/login_page.dart';
 import 'package:bidder/presentation/pages/sign_up_page/sign_up_page.dart';
 import 'package:bidder/presentation/screens/main_screen.dart';

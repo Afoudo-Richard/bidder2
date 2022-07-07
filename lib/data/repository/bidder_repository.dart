@@ -114,7 +114,8 @@ class BidderRepository {
     try {
       final QueryBuilder<ParseObject> parseQuery =
           QueryBuilder<ParseObject>(ParseObject('products'));
-      parseQuery.includeObject(['category']);
+      parseQuery..includeObject(['category']);
+      parseQuery..orderByDescending('createdAt');
       final apiResponse = await parseQuery.query();
 
       List<Product> products = [];
