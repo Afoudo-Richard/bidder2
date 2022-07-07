@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-enum PriceValidationError { empty,isNotAnInteger }
+enum PriceValidationError { empty, isNotAnInteger }
 
 class Price extends FormzInput<String, PriceValidationError> {
   const Price.pure() : super.pure('');
@@ -8,16 +8,19 @@ class Price extends FormzInput<String, PriceValidationError> {
 
   @override
   PriceValidationError? validator(String? value) {
-    if(value?.isNotEmpty == true){
-      if(int.parse(value!) is int){
-        return null;
-      }
-      else{
-        return PriceValidationError.isNotAnInteger;
-      }
-    }else{
-      return PriceValidationError.empty;
-    }
+    // if(value?.isNotEmpty == true){
+    //   if(int.parse(value!) is int){
+    //     return null;
+    //   }
+    //   else{
+    //     return PriceValidationError.isNotAnInteger;
+    //   }
+    // }else{
+    //   return PriceValidationError.empty;
+    // }
+
+    return null;
+
     //return value?.isNotEmpty == true ? null : PriceValidationError.empty;
   }
 }

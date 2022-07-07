@@ -4,7 +4,7 @@ import 'package:bidder/data/model/backend/category.dart';
 import 'package:bidder/data/model/backend/user.dart';
 
 class Product {
-  final int id;
+  final String id;
   final String productName;
   final String productDescription;
   final int productPrice;
@@ -12,7 +12,8 @@ class Product {
   final String bidStartTime;
   final String bidEndTime;
   final Category category;
-  final List<User> usersbidded;
+  final List images;
+  // final List<User> usersbidded;
 
   Product({
     required this.id,
@@ -23,7 +24,8 @@ class Product {
     required this.bidStartTime,
     required this.bidEndTime,
     required this.category,
-    required this.usersbidded,
+    required this.images,
+    // required this.usersbidded,
   });
 
   Map<String, dynamic> toMap() {
@@ -36,13 +38,14 @@ class Product {
       'bidStartTime': bidStartTime,
       'bidEndTime': bidEndTime,
       'category': category.toMap(),
-      'usersbidded': usersbidded.map((x) => x.toMap()).toList(),
+      'images': images,
+      // 'usersbidded': usersbidded.map((x) => x.toMap()).toList(),
     };
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: map['id']?.toInt() ?? 0,
+      id: map['id'] ?? 0,
       productName: map['productName'] ?? '',
       productDescription: map['productDescription'] ?? '',
       productPrice: map['productPrice']?.toInt() ?? 0,
@@ -51,8 +54,9 @@ class Product {
       bidStartTime: map['bidStartTime'] ?? '',
       bidEndTime: map['bidEndTime'] ?? '',
       category: Category.fromMap(map['category']),
-      usersbidded:
-          List<User>.from(map['usersbidded']?.map((x) => User.fromMap(x))),
+      images: map['images'],
+      // usersbidded:
+      //     List<User>.from(map['usersbidded']?.map((x) => User.fromMap(x))),
     );
   }
 

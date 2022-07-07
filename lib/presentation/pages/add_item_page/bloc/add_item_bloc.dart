@@ -24,10 +24,27 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     on<AddItemBidEndTimeChanged>(_onBidEndTimeChanged);
     on<AddItemSubmitted>(_onSubmitted);
     on<SelectImages>(_onSelectImages);
+    on<CategoriesFetched>(_onCategoriesFetched);
   }
 
   final BidderRepository bidderRepository;
   final AuthenticationBloc authenticationBloc;
+
+  void _onCategoriesFetched(
+    CategoriesFetched event,
+    Emitter<AddItemState> emit,
+  ) async {
+    emit(state.copyWith(addItemstatus: AddItemStatus.loading));
+    try {
+      var categories = await bidderRepository.fetcheCategories();
+      emit(state.copyWith(
+        categories: categories,
+        addItemstatus: AddItemStatus.success,
+      ));
+    } catch (e) {
+      emit(state.copyWith(addItemstatus: AddItemStatus.failure));
+    }
+  }
 
   void _onCategoryChanged(
     AddItemCategoryChanged event,
@@ -120,22 +137,20 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
       try {
         final addNewItem = {
           "images": state.pickedFile,
-          "item-info": {
-            'productName': state.name.value,
-            'productDescription': state.description.value,
-            'productPrice': state.price.value,
-            if (state.addBidTime == true) ...{
-              'bidStartTime': state.bidStartTime.toString(),
-              'bidEndTime': state.bidEndTime.toString()
-            },
-            'category_id': state.category.toString(),
-            'user_id': authenticationBloc.state.user!.id.toString(),
-          }
+          'productName': state.name.value,
+          'productDescription': state.description.value,
+          'productPrice': int.parse(state.price.value),
+          if (state.addBidTime == true) ...{
+            'bidStartTime': state.bidStartTime.toString(),
+            'bidEndTime': state.bidEndTime.toString()
+          },
+          'category_id': state.category.toString(),
+          'user_id': authenticationBloc.state.user!.id.toString(),
         };
 
-        Map addItemResponse = await bidderRepository.addItem(addNewItem);
-        print("before the response");
-        print(addItemResponse);
+        //print(addNewItem);
+
+        await bidderRepository.addItem(addNewItem);
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } catch (_) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));

@@ -12,24 +12,28 @@ class ItemFetchSuccess extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeitemsBloc, HomeitemsState>(
         builder: (context, state) {
-      return ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-        itemCount: state.products.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Item(
-            product: state.products[index],
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return const ViewItemPage();
-                }),
-              );
-            },
-          );
-        },
-      );
+      return state.products.length == 0
+          ? Center(
+              child: Text("No products found"),
+            )
+          : ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+              itemCount: state.products.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Item(
+                  product: state.products[index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return ViewItemPage(product: state.products[index]);
+                      }),
+                    );
+                  },
+                );
+              },
+            );
     });
   }
 }

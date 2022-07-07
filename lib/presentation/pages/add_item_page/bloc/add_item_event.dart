@@ -1,6 +1,5 @@
 part of 'add_item_bloc.dart';
 
-
 abstract class AddItemEvent extends Equatable {
   const AddItemEvent();
 
@@ -11,7 +10,7 @@ abstract class AddItemEvent extends Equatable {
 class AddItemCategoryChanged extends AddItemEvent {
   const AddItemCategoryChanged(this.category);
 
-  final int category;
+  final String category;
 
   @override
   List<Object> get props => [category];
@@ -84,4 +83,6 @@ class AddItemSubmitted extends AddItemEvent {
   const AddItemSubmitted();
 }
 
-class SelectImages extends AddItemEvent{}
+class SelectImages extends AddItemEvent {}
+
+class CategoriesFetched extends AddItemEvent {}

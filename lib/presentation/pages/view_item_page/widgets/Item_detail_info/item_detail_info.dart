@@ -1,9 +1,12 @@
+import 'package:bidder/data/model/models.dart';
 import 'package:bidder/presentation/widgets/custom_button.dart';
 import 'package:bidder/utils/style.dart';
 import 'package:flutter/material.dart';
 
 class ItemDetailInfo extends StatelessWidget {
-  const ItemDetailInfo({Key? key}) : super(key: key);
+  const ItemDetailInfo({Key? key, required this.product}) : super(key: key);
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class ItemDetailInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Obag. Moon",
+                    product.productName,
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -29,7 +32,7 @@ class ItemDetailInfo extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.008,
                   ),
                   Text(
-                    'Special Expanded plastic material',
+                    product.productDescription,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -51,27 +54,27 @@ class ItemDetailInfo extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              ItemDetailProperties(
-                title: 'Condition',
-                value: 'New',
-              ),
-              ItemDetailProperties(
-                title: 'Year',
-                value: '2019',
-              ),
-              ItemDetailProperties(
-                title: 'Size',
-                value: 'Small',
-              ),
-              ItemDetailProperties(
-                title: 'Starting Bid',
-                value: r'$50',
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: const [
+          //     ItemDetailProperties(
+          //       title: 'Condition',
+          //       value: 'New',
+          //     ),
+          //     ItemDetailProperties(
+          //       title: 'Year',
+          //       value: '2019',
+          //     ),
+          //     ItemDetailProperties(
+          //       title: 'Size',
+          //       value: 'Small',
+          //     ),
+          //     ItemDetailProperties(
+          //       title: 'Starting Bid',
+          //       value: r'$50',
+          //     ),
+          //   ],
+          // ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.008,
           ),

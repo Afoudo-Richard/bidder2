@@ -1,24 +1,25 @@
-
-
 part of 'authentication_bloc.dart';
 
 class AuthenticationState extends Equatable {
   const AuthenticationState({
     this.authenticated = false,
     this.user,
+    this.toggler = false,
   });
 
   final bool authenticated;
   final User? user;
+  final bool toggler;
 
   AuthenticationState copyWith({
     bool? authenticated,
     User? user,
+    bool? toggler,
   }) {
     return AuthenticationState(
-      authenticated: authenticated ?? this.authenticated,
-      user: user ?? this.user,
-    );
+        authenticated: authenticated ?? this.authenticated,
+        user: user ?? this.user,
+        toggler: toggler ?? this.toggler);
   }
 
   @override
@@ -40,5 +41,6 @@ class AuthenticationState extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory AuthenticationState.fromJson(String source) => AuthenticationState.fromMap(json.decode(source));
+  factory AuthenticationState.fromJson(String source) =>
+      AuthenticationState.fromMap(json.decode(source));
 }

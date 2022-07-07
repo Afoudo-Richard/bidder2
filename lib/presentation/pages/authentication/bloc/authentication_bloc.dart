@@ -13,6 +13,7 @@ class AuthenticationBloc
   AuthenticationBloc() : super(AuthenticationState()) {
     on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
+    on<AuthenticationChecked>(_onAuthenticationChecked);
   }
 
   void _onAuthenticationStatusChanged(
@@ -31,6 +32,13 @@ class AuthenticationBloc
     emit(state.copyWith(authenticated: false, user: null));
   }
 
+  void _onAuthenticationChecked(
+    AuthenticationChecked event,
+    Emitter<AuthenticationState> emit,
+  ) {
+    emit(state.copyWith(toggler: event.value));
+  }
+
   @override
   AuthenticationState? fromJson(Map<String, dynamic> json) {
     return AuthenticationState.fromMap(json);
@@ -40,6 +48,4 @@ class AuthenticationBloc
   Map<String, dynamic>? toJson(AuthenticationState state) {
     return state.toMap();
   }
-
-
 }

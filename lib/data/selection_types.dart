@@ -1,3 +1,1 @@
-
-
-List<String> selectionTypes = ['Discover', 'Upcoming', 'Favorites', 'My Auction'];
+List<String> selectionTypes = ['Discover', 'Favorites', 'My Auction'];

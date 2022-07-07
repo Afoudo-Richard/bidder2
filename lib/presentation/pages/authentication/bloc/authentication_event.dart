@@ -8,7 +8,10 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class AuthenticationStatusChanged extends AuthenticationEvent {
-  const AuthenticationStatusChanged({ required this.authenticated, this.user});
+  const AuthenticationStatusChanged({
+    required this.authenticated,
+    this.user,
+  });
 
   final bool authenticated;
   final User? user;
@@ -18,3 +21,10 @@ class AuthenticationStatusChanged extends AuthenticationEvent {
 }
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}
+
+class AuthenticationChecked extends AuthenticationEvent {
+  const AuthenticationChecked({
+    required this.value,
+  });
+  final bool value;
+}

@@ -16,7 +16,7 @@ class FavoritesLayout extends StatelessWidget {
           Text("Favorites pages here"),
         ],
       ),
-      bottomNavigationBar: CustomButtomNavigationBar(),
+      // bottomNavigationBar: CustomButtomNavigationBar(),
     );
   }
 }

@@ -1,13 +1,10 @@
-
-
 import 'dart:convert';
 
 import 'package:bidder/data/model/backend/product.dart';
 
 class Category {
-  final int id;
+  final String id;
   final String name;
-
 
   Category({
     required this.id,
@@ -23,12 +20,13 @@ class Category {
 
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
-      id: map['id']?.toInt() ?? 0,
+      id: map['id'] ?? '',
       name: map['name'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Category.fromJson(String source) => Category.fromMap(json.decode(source));
+  factory Category.fromJson(String source) =>
+      Category.fromMap(json.decode(source));
 }

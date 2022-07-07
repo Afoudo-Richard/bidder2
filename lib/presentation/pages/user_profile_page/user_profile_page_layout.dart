@@ -1,8 +1,8 @@
 import 'package:bidder/presentation/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:bidder/presentation/pages/user_profile_page/widgets/header_user_info.dart';
 import 'package:bidder/presentation/pages/user_profile_page/widgets/profile_user_item.dart';
-import 'package:bidder/presentation/pages/user_profile_page/widgets/user_logged_in/user_logged_in.dart';
-import 'package:bidder/presentation/pages/user_profile_page/widgets/user_not_logged_in/user_not_logged_in.dart';
+import 'package:bidder/presentation/pages/user_profile_page/widgets/profile_user_logged_in.dart';
+import 'package:bidder/presentation/widgets/user_not_logged_in.dart';
 import 'package:bidder/presentation/widgets/custom_bottom_navigaiton_bar/custom_bottom_navigation_bar.dart';
 import 'package:bidder/presentation/widgets/custom_container.dart';
 import 'package:bidder/utils/style.dart';
@@ -28,10 +28,12 @@ class UserProfilePageLayout extends StatelessWidget {
       ),
       body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
-          return !state.authenticated ? const UserNotLoggedIn() : const UserLoggedIn();
+          return !state.authenticated
+              ? const UserNotLoggedIn()
+              : const ProfileUserLoggedIn();
         },
       ),
-      bottomNavigationBar: const CustomButtomNavigationBar(),
+      // bottomNavigationBar: const CustomButtomNavigationBar(),
     );
   }
 }

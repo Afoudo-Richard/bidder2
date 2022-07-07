@@ -1,6 +1,8 @@
+import 'package:bidder/data/model/backend/product.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/Item_detail_info/item_detail_info.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/bidders/bidders.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/header_info/header_info.dart';
+import 'package:bidder/presentation/pages/view_item_page/widgets/location_map.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/place_bid_container/place_bid_container.dart';
 import 'package:bidder/presentation/widgets/custom_button.dart';
 import 'package:bidder/presentation/widgets/custom_container.dart';
@@ -8,7 +10,8 @@ import 'package:bidder/utils/style.dart';
 import 'package:flutter/material.dart';
 
 class ViewItemPageLayout extends StatefulWidget {
-  const ViewItemPageLayout({Key? key}) : super(key: key);
+  final Product product;
+  const ViewItemPageLayout({Key? key, required this.product}) : super(key: key);
 
   @override
   State<ViewItemPageLayout> createState() => _ViewItemPageLayoutState();
@@ -25,15 +28,57 @@ class _ViewItemPageLayoutState extends State<ViewItemPageLayout> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const HeaderInfo(),
+            HeaderInfo(
+              product: widget.product,
+            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.04,
             ),
-            const ItemDetailInfo(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.04,
+              height: 400,
+              child: DefaultTabController(
+                length: 4,
+                child: Scaffold(
+                  appBar: AppBar(
+                    backgroundColor: primaryColor,
+                    automaticallyImplyLeading: false,
+                    title: const TabBar(
+                      indicatorColor: Colors.white,
+                      tabs: [
+                        Text(
+                          "Details",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          "Bidders",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          "Reviews",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          "Location",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  body: TabBarView(
+                    children: [
+                      ItemDetailInfo(
+                        product: widget.product,
+                      ),
+                      SingleChildScrollView(
+                        child: const Bidders(),
+                      ),
+                      Icon(Icons.directions_transit),
+                      LocationMap(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            const Bidders(),
           ],
         ),
       ),

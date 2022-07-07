@@ -11,23 +11,24 @@ class ItemListingLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child:
-          BlocBuilder<HomeitemsBloc, HomeitemsState>(builder: (context, state) {
-        switch (state.status) {
-          case HomeitemsStatus.initial:
-          case HomeitemsStatus.loading:
-            return const Center(
-              child: CircularProgressIndicator(
-                backgroundColor: primaryColor,
-                color: secondaryColor,
-              ),
-            );
-          case HomeitemsStatus.success:
-            return const ItemFetchSuccess();
-          case HomeitemsStatus.failure:
-            return const ItemFetchFailed();
-        }
-      }),
+      child: BlocBuilder<HomeitemsBloc, HomeitemsState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case HomeitemsStatus.initial:
+            case HomeitemsStatus.loading:
+              return const Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: primaryColor,
+                  color: secondaryColor,
+                ),
+              );
+            case HomeitemsStatus.success:
+              return const ItemFetchSuccess();
+            case HomeitemsStatus.failure:
+              return const ItemFetchFailed();
+          }
+        },
+      ),
     );
   }
 }

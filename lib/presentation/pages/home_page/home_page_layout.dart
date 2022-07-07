@@ -30,7 +30,7 @@ class HomePageLayout extends StatelessWidget {
           const ItemListing(),
         ],
       ),
-      bottomNavigationBar: CustomButtomNavigationBar(),
+      // bottomNavigationBar: CustomButtomNavigationBar(),
     );
   }
 }
