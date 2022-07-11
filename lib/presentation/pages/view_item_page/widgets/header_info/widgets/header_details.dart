@@ -1,6 +1,8 @@
 import 'package:bidder/data/model/models.dart';
+import 'package:bidder/presentation/pages/view_item_page/bloc/view_item_bloc_bloc.dart';
 import 'package:bidder/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
@@ -40,13 +42,17 @@ class _ViewItemHeaderInfoDetailsState extends State<ViewItemHeaderInfoDetails> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              r"$105",
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-                color: primaryColor,
-              ),
+            BlocBuilder<ViewItemBlocBloc, ViewItemBlocState>(
+              builder: (context, state) {
+                return Text(
+                  "FCFA ${state.currentBid}",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: primaryColor,
+                  ),
+                );
+              },
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.001,
@@ -88,7 +94,7 @@ class _ViewItemHeaderInfoDetailsState extends State<ViewItemHeaderInfoDetails> {
                         style: const TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: 15,
                         ),
                       );
                     }

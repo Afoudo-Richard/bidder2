@@ -1,7 +1,10 @@
+import 'package:bidder/presentation/pages/authentication/bloc/authentication_bloc.dart';
+import 'package:bidder/presentation/pages/view_item_page/bloc/view_item_bloc_bloc.dart';
 import 'package:bidder/presentation/widgets/custom_button.dart';
 import 'package:bidder/presentation/widgets/custom_container.dart';
 import 'package:bidder/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlaceBidContainer extends StatefulWidget {
   const PlaceBidContainer({
@@ -13,7 +16,17 @@ class PlaceBidContainer extends StatefulWidget {
 }
 
 class _PlaceBidContainerState extends State<PlaceBidContainer> {
-  final amountTextFieldController = TextEditingController(text: '150');
+  late TextEditingController amountTextFieldController;
+
+  @override
+  void initState() {
+    final state = context.read<ViewItemBlocBloc>().state;
+
+    amountTextFieldController =
+        TextEditingController(text: state.currentBid.toString());
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -50,7 +63,9 @@ class _PlaceBidContainerState extends State<PlaceBidContainer> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          amountTextFieldController.text =  (int.parse(amountTextFieldController.text) - 1).toString();
+                          amountTextFieldController.text =
+                              (int.parse(amountTextFieldController.text) - 1)
+                                  .toString();
                         });
                       },
                       child: CustomContainer(
@@ -94,25 +109,33 @@ class _PlaceBidContainerState extends State<PlaceBidContainer> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.001,
                         ),
-                        Text(
-                          r'Current Bid: $105',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey,
-                          ),
+                        BlocBuilder<ViewItemBlocBloc, ViewItemBlocState>(
+                          builder: (context, state) {
+                            return Text(
+                              'Current Bid: FCFA ${state.currentBid}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          amountTextFieldController.text =  (int.parse(amountTextFieldController.text) + 1).toString();
+                          amountTextFieldController.text =
+                              (int.parse(amountTextFieldController.text) + 1)
+                                  .toString();
                         });
                       },
                       onLongPress: () {
                         setState(() {
-                          amountTextFieldController.text =  (int.parse(amountTextFieldController.text) + 1).toString();
+                          amountTextFieldController.text =
+                              (int.parse(amountTextFieldController.text) + 1)
+                                  .toString();
                         });
                       },
                       child: CustomContainer(
@@ -133,26 +156,42 @@ class _PlaceBidContainerState extends State<PlaceBidContainer> {
           ),
           SizedBox(
             width: double.infinity,
-            child: CustomButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  barrierColor: primaryColor.withOpacity(0.7),
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (ctx) {
-                    return const PlaceBidContainer();
+            child: BlocBuilder<ViewItemBlocBloc, ViewItemBlocState>(
+              builder: (context, state) {
+                return CustomButton(onPressed: () {
+                  BlocProvider.of<ViewItemBlocBloc>(context).add(OnPlaceBid(
+                    price: int.parse(
+                      amountTextFieldController.value.text,
+                    ),
+                    productId: state.product.id,
+                    userId: BlocProvider.of<AuthenticationBloc>(context)
+                            .state
+                            .user
+                            ?.id ??
+                        "",
+                  ));
+                }, child: BlocBuilder<ViewItemBlocBloc, ViewItemBlocState>(
+                  builder: (context, state) {
+                    switch (state.placeBidStatus) {
+                      case PlacebidStatus.loading:
+                        return CircularProgressIndicator(
+                          backgroundColor: primaryColor,
+                          color: secondaryColor,
+                        );
+                      default:
+                        return Text(
+                          "Place a Bid!",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        );
+                    }
                   },
-                );
+                ));
               },
-              child: const Text(
-                "Place a Bid!",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
             ),
           ),
         ],

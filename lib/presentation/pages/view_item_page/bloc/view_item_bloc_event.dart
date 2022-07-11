@@ -7,4 +7,23 @@ abstract class ViewItemBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class Onplacebid extends ViewItemBlocEvent {}
+class OnPlaceBid extends ViewItemBlocEvent {
+  final int price;
+  final String productId;
+  final String userId;
+  const OnPlaceBid({
+    required this.price,
+    required this.productId,
+    required this.userId,
+  });
+
+  @override
+  List<Object> get props => [price, productId, userId];
+}
+
+class OnFetchBidders extends ViewItemBlocEvent {
+  final String productId;
+  const OnFetchBidders({
+    required this.productId,
+  });
+}

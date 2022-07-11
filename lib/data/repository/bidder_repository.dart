@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bidder/data/data_provider/bidder_api.dart';
+import 'package:bidder/data/model/backend/bidder.dart';
 import 'package:bidder/data/model/backend/category.dart';
 import 'package:bidder/data/model/backend/product.dart';
+import 'package:bidder/data/model/backend/user.dart';
 import 'package:bidder/utils/errors/result_errors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -38,6 +40,10 @@ class BidderRepository {
   }) async {
     final user =
         ParseUser.createUser(firstname + " " + lastname, password, email);
+    user
+      ..set('phone', phone)
+      ..set('firstname', firstname)
+      ..set('lastname', lastname);
 
     var response = await user.signUp();
 
@@ -148,5 +154,56 @@ class BidderRepository {
     }
 
     return <Product>[];
+  }
+
+  Future placeBid({
+    required int price,
+    required String productId,
+    required String userId,
+  }) async {
+    var bidder = ParseObject('bidders');
+    bidder.set(
+        'product', (ParseObject('products')..objectId = productId).toPointer());
+    bidder.set('bidder', (ParseObject('_User')..objectId = userId).toPointer());
+    bidder.set('price', price);
+
+    await bidder.save();
+  }
+
+  Future<List<Bidder>> fetchBidders({required String productId}) async {
+    QueryBuilder<ParseObject> listOfBidders =
+        QueryBuilder<ParseObject>(ParseObject('bidder'));
+    listOfBidders..includeObject(['user']);
+    listOfBidders
+      ..whereEqualTo('product',
+          (ParseObject('products')..objectId = productId).toPointer());
+
+    final ParseResponse apiResponse = await listOfBidders.query();
+
+    List<Bidder> listOfBidder = [];
+
+    if (apiResponse.success && apiResponse.results != null) {
+      print(apiResponse.result);
+      for (ParseObject item in apiResponse.result as List<ParseObject>) {
+        Bidder bidder = Bidder(
+          id: item.objectId ?? "",
+          price: item.get('price'),
+          user: User(
+            id: item.get('user').objectId,
+            firstname: item.get('user').get('firstname'),
+            lastname: item.get('user').get('lastname'),
+            email: item.get('user').get('email'),
+            phone: item.get('user').get('phone'),
+            dateCreated: DateTime.parse(item.get('user').createdAt),
+          ),
+        );
+
+        listOfBidder.add(bidder);
+      }
+
+      return listOfBidder;
+    } else {
+      return [];
+    }
   }
 }

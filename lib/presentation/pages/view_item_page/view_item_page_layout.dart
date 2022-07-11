@@ -1,4 +1,5 @@
 import 'package:bidder/data/model/backend/product.dart';
+import 'package:bidder/presentation/pages/view_item_page/bloc/view_item_bloc_bloc.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/Item_detail_info/item_detail_info.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/bidders/bidders.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/header_info/header_info.dart';
@@ -8,6 +9,7 @@ import 'package:bidder/presentation/widgets/custom_button.dart';
 import 'package:bidder/presentation/widgets/custom_container.dart';
 import 'package:bidder/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewItemPageLayout extends StatefulWidget {
   final Product product;
@@ -32,7 +34,7 @@ class _ViewItemPageLayoutState extends State<ViewItemPageLayout> {
               product: widget.product,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.04,
+              height: MediaQuery.of(context).size.height * 0.0,
             ),
             SizedBox(
               height: 400,
@@ -47,19 +49,19 @@ class _ViewItemPageLayoutState extends State<ViewItemPageLayout> {
                       tabs: [
                         Text(
                           "Details",
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 11),
                         ),
                         Text(
                           "Bidders",
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 11),
                         ),
                         Text(
                           "Reviews",
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 11),
                         ),
                         Text(
                           "Location",
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 11),
                         ),
                       ],
                     ),
@@ -103,7 +105,10 @@ class _ViewItemPageLayoutState extends State<ViewItemPageLayout> {
                 isScrollControlled: true,
                 context: context,
                 builder: (ctx) {
-                  return const PlaceBidContainer();
+                  return BlocProvider.value(
+                    value: BlocProvider.of<ViewItemBlocBloc>(context),
+                    child: const PlaceBidContainer(),
+                  );
                 },
               );
             },

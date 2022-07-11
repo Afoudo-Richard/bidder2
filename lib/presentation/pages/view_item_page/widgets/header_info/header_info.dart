@@ -2,6 +2,7 @@ import 'package:bidder/data/model/models.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/header_info/widgets/header_details.dart';
 import 'package:bidder/presentation/widgets/custom_container.dart';
 import 'package:bidder/utils/style.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -51,11 +52,12 @@ class HeaderInfo extends StatelessWidget {
                       int itemIndex,
                       int pageViewIndex,
                     ) =>
-                        Container(
-                      child: Image.network(
-                        product.images[itemIndex]['url'],
-                        fit: BoxFit.cover,
+                        CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Center(
+                        child: const CircularProgressIndicator(),
                       ),
+                      imageUrl: product.images[itemIndex]['url'],
                     ),
                   ),
                 ),

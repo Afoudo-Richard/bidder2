@@ -93,11 +93,15 @@ class _ItemState extends State<Item> {
                         int itemIndex,
                         int pageViewIndex,
                       ) =>
-                          Container(
-                        child: Image.network(
-                          widget.product.images[itemIndex]['url'],
-                          fit: BoxFit.cover,
+                          CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: primaryColor,
+                            color: secondaryColor,
+                          ),
                         ),
+                        imageUrl: widget.product.images[itemIndex]['url'],
                       ),
                     ),
                   ),
@@ -177,85 +181,6 @@ class _ItemState extends State<Item> {
                   ),
                 ],
               ),
-              // Positioned(
-              //   bottom: infoContainerHeight -
-              //       (infoContainerPadding / 2) -
-              //       ((countDownInfoHeight) / 2) +
-              //       5,
-              //   right: 0,
-              //   child: Container(
-              //     height: countDownInfoHeight,
-              //     clipBehavior: Clip.hardEdge,
-              //     decoration: const BoxDecoration(
-              //         borderRadius: BorderRadius.only(
-              //           topLeft: Radius.circular(10),
-              //           bottomLeft: Radius.circular(10),
-              //         ),
-              //         boxShadow: [
-              //           BoxShadow(
-              //             color: Colors.black45,
-              //             blurRadius: 10,
-              //             spreadRadius: 1,
-              //             offset: Offset(0, 1),
-              //           ),
-              //         ]),
-              //     child: Row(
-              //       children: [
-              //         Container(
-              //           height: double.infinity,
-              //           alignment: Alignment.center,
-              //           padding: const EdgeInsets.symmetric(
-              //               horizontal: 10, vertical: 5),
-              //           color: Colors.white,
-              //           child: Row(
-              //             children: [
-              //               Icon(
-              //                 Icons.timer,
-              //                 size: 20,
-              //               ),
-              //               SizedBox(
-              //                 width: MediaQuery.of(context).size.width * 0.01,
-              //               ),
-              //               CountdownTimer(
-              //                 controller: controller,
-              //                 widgetBuilder: (_, remainingTime) {
-              //                   if (remainingTime == null) {
-              //                     Text("Time is finish");
-              //                   } else {
-              //                     return Text(
-              //                       '${remainingTime.days}d ${remainingTime.hours}h ${remainingTime.min}m ${remainingTime.sec}s',
-              //                       style: const TextStyle(
-              //                         color: primaryColor,
-              //                         fontWeight: FontWeight.bold,
-              //                         fontSize: 16,
-              //                       ),
-              //                     );
-              //                   }
-              //                   return const SizedBox();
-              //                 },
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //         Container(
-              //           height: double.infinity,
-              //           alignment: Alignment.center,
-              //           padding: const EdgeInsets.symmetric(
-              //               horizontal: 10, vertical: 5),
-              //           color: primaryColor,
-              //           child: Text(
-              //             'FCFA ${widget.product.productPrice}',
-              //             style: const TextStyle(
-              //               color: Colors.white,
-              //               fontWeight: FontWeight.bold,
-              //               fontSize: 16,
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
               Positioned(
                 top: 10,
                 right: 10,

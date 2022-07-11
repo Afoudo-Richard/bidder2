@@ -89,7 +89,7 @@ class UserBid extends StatelessWidget {
                 hideShadow: true,
                 padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
                 child: Text(
-                  r"$105",
+                  "FCFA 60000",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
