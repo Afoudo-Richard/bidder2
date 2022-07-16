@@ -12,6 +12,7 @@ class Product {
   final String bidStartTime;
   final String bidEndTime;
   final Category category;
+  final User user;
   final List images;
   // final List<User> usersbidded;
 
@@ -25,6 +26,7 @@ class Product {
     required this.bidEndTime,
     required this.category,
     required this.images,
+    required this.user,
     // required this.usersbidded,
   });
 
@@ -54,6 +56,7 @@ class Product {
       bidStartTime: map['bidStartTime'] ?? '',
       bidEndTime: map['bidEndTime'] ?? '',
       category: Category.fromMap(map['category']),
+      user: User.fromMap(map['user']),
       images: map['images'],
       // usersbidded:
       //     List<User>.from(map['usersbidded']?.map((x) => User.fromMap(x))),

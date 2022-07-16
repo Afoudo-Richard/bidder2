@@ -23,23 +23,23 @@ AppBar ScreenAppBar() {
               color: Colors.white,
             ),
           ),
-          Positioned(
-            bottom: 7,
-            right: 5,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-              decoration: BoxDecoration(
-                color: secondaryColor,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Text(
-                '5',
-                style: TextStyle(color: Colors.black,
-                fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 7,
+          //   right: 5,
+          //   child: Container(
+          //     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+          //     decoration: BoxDecoration(
+          //       color: secondaryColor,
+          //       borderRadius: BorderRadius.circular(5),
+          //     ),
+          //     child: Text(
+          //       '5',
+          //       style: TextStyle(color: Colors.black,
+          //       fontWeight: FontWeight.bold
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
 

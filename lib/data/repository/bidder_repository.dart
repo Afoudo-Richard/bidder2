@@ -120,7 +120,7 @@ class BidderRepository {
     try {
       final QueryBuilder<ParseObject> parseQuery =
           QueryBuilder<ParseObject>(ParseObject('products'));
-      parseQuery..includeObject(['category']);
+      parseQuery..includeObject(['category', 'user']);
       parseQuery..orderByDescending('createdAt');
       final apiResponse = await parseQuery.query();
 
@@ -139,6 +139,14 @@ class BidderRepository {
             category: Category(
               id: item.get('category').objectId,
               name: item.get('category').get('name'),
+            ),
+            user: User(
+              id: item.get('user').objectId,
+              firstname: '',
+              lastname: '',
+              email: '',
+              phone: '123',
+              dateCreated: DateTime.now(),
             ),
             images: item.get('images'),
           );
@@ -171,39 +179,43 @@ class BidderRepository {
   }
 
   Future<List<Bidder>> fetchBidders({required String productId}) async {
-    QueryBuilder<ParseObject> listOfBidders =
-        QueryBuilder<ParseObject>(ParseObject('bidder'));
-    listOfBidders..includeObject(['user']);
-    listOfBidders
-      ..whereEqualTo('product',
-          (ParseObject('products')..objectId = productId).toPointer());
+    try {
+      QueryBuilder<ParseObject> listOfBidders =
+          QueryBuilder<ParseObject>(ParseObject('bidders'))
+            ..includeObject(['bidder'])
+            ..orderByDescending('price')
+            ..whereEqualTo('product',
+                (ParseObject('products')..objectId = productId).toPointer());
 
-    final ParseResponse apiResponse = await listOfBidders.query();
+      final ParseResponse apiResponse = await listOfBidders.query();
 
-    List<Bidder> listOfBidder = [];
+      List<Bidder> listOfBidder = [];
 
-    if (apiResponse.success && apiResponse.results != null) {
-      print(apiResponse.result);
-      for (ParseObject item in apiResponse.result as List<ParseObject>) {
-        Bidder bidder = Bidder(
-          id: item.objectId ?? "",
-          price: item.get('price'),
-          user: User(
-            id: item.get('user').objectId,
-            firstname: item.get('user').get('firstname'),
-            lastname: item.get('user').get('lastname'),
-            email: item.get('user').get('email'),
-            phone: item.get('user').get('phone'),
-            dateCreated: DateTime.parse(item.get('user').createdAt),
-          ),
-        );
+      if (apiResponse.success && apiResponse.results != null) {
+        for (ParseObject item in apiResponse.result as List<ParseObject>) {
+          Bidder bidder = Bidder(
+            id: item.objectId ?? "",
+            price: item.get('price'),
+            user: User(
+              id: item.get('bidder').objectId,
+              firstname: item.get('bidder').get('firstname'),
+              lastname: item.get('bidder').get('lastname'),
+              email: item.get('bidder').get('firstname'),
+              phone: item.get('bidder').get('phone'),
+              dateCreated: DateTime.now(),
+            ),
+          );
 
-        listOfBidder.add(bidder);
+          listOfBidder.add(bidder);
+        }
+
+        return listOfBidder;
+      } else {
+        return [];
       }
-
-      return listOfBidder;
-    } else {
-      return [];
+    } catch (e) {
+      print(e);
     }
+    return <Bidder>[];
   }
 }

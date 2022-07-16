@@ -31,5 +31,5 @@ class ViewItemBlocState extends Equatable {
   }
 
   @override
-  List<Object> get props => [product, placeBidStatus];
+  List<Object> get props => [product, placeBidStatus, biddersStatus];
 }

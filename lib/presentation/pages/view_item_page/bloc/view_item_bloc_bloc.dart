@@ -53,15 +53,13 @@ class ViewItemBlocBloc extends Bloc<ViewItemBlocEvent, ViewItemBlocState> {
         productId: event.productId,
       );
 
-      print(fetchAllBidderResponse);
-
       emit(state.copyWith(
         bidders: fetchAllBidderResponse,
         biddersStatus: BiddersStatus.success,
       ));
     } catch (e) {
       print(e);
-      emit(state.copyWith(placeBidStatus: PlacebidStatus.failure));
+      emit(state.copyWith(biddersStatus: BiddersStatus.failure));
     }
   }
 }

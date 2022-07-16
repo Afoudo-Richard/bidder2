@@ -1,4 +1,5 @@
 import 'package:bidder/data/model/backend/product.dart';
+import 'package:bidder/presentation/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:bidder/presentation/pages/view_item_page/bloc/view_item_bloc_bloc.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/Item_detail_info/item_detail_info.dart';
 import 'package:bidder/presentation/pages/view_item_page/widgets/bidders/bidders.dart';
@@ -98,29 +99,38 @@ class _ViewItemPageLayoutState extends State<ViewItemPageLayout> {
               ),
             ],
           ),
-          child: CustomButton(
-            onPressed: () {
-              showModalBottomSheet(
-                barrierColor: primaryColor.withOpacity(0.7),
-                isScrollControlled: true,
-                context: context,
-                builder: (ctx) {
-                  return BlocProvider.value(
-                    value: BlocProvider.of<ViewItemBlocBloc>(context),
-                    child: const PlaceBidContainer(),
-                  );
-                },
-              );
+          child: BlocBuilder<ViewItemBlocBloc, ViewItemBlocState>(
+            builder: (context, state) {
+              final user = BlocProvider.of<AuthenticationBloc>(context).state;
+              if (state.product.user.id == user.user?.id) {
+                return SizedBox();
+              } else {
+                return CustomButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      barrierColor: primaryColor.withOpacity(0.7),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (ctx) {
+                        return BlocProvider.value(
+                          value: BlocProvider.of<ViewItemBlocBloc>(context),
+                          child: const PlaceBidContainer(),
+                        );
+                      },
+                    );
+                  },
+                  child: const Text(
+                    "Place a Bid!",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                );
+              }
             },
-            child: const Text(
-              "Place a Bid!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
-            ),
           ),
         ),
       ),
